@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antaranga - Reviving Indian Art and Culture</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['"Cormorant Garamond"', 'serif'],
+                        body: ['"DM Sans"', 'sans-serif'],
+                        accent: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        bg: '#FAF6EF',
+                        'bg-sand': '#EDE8DF',
+                        'bg-dark': '#1C1C1C',
+                        'bg-rich': '#6B2737',
+                        accent: '#D4700A',
+                        gold: '#C9963F',
+                        text: '#1C1C1C',
+                        'text-muted': '#5C5347',
+                        white: '#FFFFFF',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Styles */
+        :root {
+            --color-bg: #FAF6EF;
+            --color-text: #1C1C1C;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: "DM Sans", sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Cormorant Garamond", serif;
+        }
+
+        /* Custom Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .reveal-on-scroll {
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .section-hidden {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        section, #home, #about, #challenge, #legacy, #founder, #impact, #join {
+            scroll-margin-top: 80px;
+        }
+
+        /* Custom Scrollbar for Modal */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #FAF6EF;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #D4700A;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="antialiased bg-[#FAF6EF] text-[#1C1C1C] min-h-screen selection:bg-[#D4700A] selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent py-5">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-2xl md:text-3xl font-bold font-display text-[#1C1C1C] tracking-tight">
+                Antaranga
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-[#1C1C1C] hover:text-[#D4700A] transition-colors font-medium text-sm tracking-wide">About</a>
+                <a href="#challenge" class="text-[#1C1C1C] hover:text-[#D4700A] transition-colors font-medium text-sm tracking-wide">Challenge</a>
+                <a href="#legacy" class="text-[#1C1C1C] hover:text-[#D4700A] transition-colors font-medium text-sm tracking-wide">Legacy</a>
+                <a href="#founder" class="text-[#1C1C1C] hover:text-[#D4700A] transition-colors font-medium text-sm tracking-wide">Founder</a>
+                <a href="#impact" class="text-[#1C1C1C] hover:text-[#D4700A] transition-colors font-medium text-sm tracking-wide">Impact</a>
+
+                <button onclick="openModal()" class="bg-[#D4700A] text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-[#b85f06] transition-colors">
+                    Join the Movement
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-[#1C1C1C]">
+                <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+                <i data-lucide="x" id="close-icon" class="w-7 h-7 hidden"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-[#FAF6EF] shadow-lg py-6 px-6 flex flex-col space-y-4">
+            <a href="#about" class="text-[#1C1C1C] text-lg font-medium mobile-link">About</a>
+            <a href="#challenge" class="text-[#1C1C1C] text-lg font-medium mobile-link">Challenge</a>
+            <a href="#legacy" class="text-[#1C1C1C] text-lg font-medium mobile-link">Legacy</a>
+            <a href="#founder" class="text-[#1C1C1C] text-lg font-medium mobile-link">Founder</a>
+            <a href="#impact" class="text-[#1C1C1C] text-lg font-medium mobile-link">Impact</a>
+
+            <button onclick="openModal(); closeMobileMenu()" class="bg-[#D4700A] text-white px-6 py-3 rounded-full font-medium text-center">
+                Join the Movement
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Column -->
+            <div class="space-y-8 z-10">
+                <div class="inline-flex items-center space-x-3">
+                    <div class="h-[1px] w-8 bg-[#D4700A]"></div>
+                    <span class="text-[#D4700A] font-medium text-xs tracking-widest uppercase">
+                        Reviving Indian Art and culture
+                    </span>
+                    <div class="h-[1px] w-8 bg-[#D4700A]"></div>
+                </div>
+
+                <div class="mb-2">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full border border-[#C9963F]/60 text-[#8B6B3D] text-[10px] font-medium tracking-wider uppercase bg-white/50 backdrop-blur-sm">
+                        Supported by Ministry of Culture, Government of India
+                    </span>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold font-display text-[#1C1C1C] leading-[0.95]">
+                    Where <span class="text-[#D4700A] italic">Bharatanatyam</span> Lives, Breathes, and Grows
+                </h1>
+
+                <p class="text-[#5C5347] text-lg md:text-xl max-w-lg leading-relaxed">
+                    Antaranga is a movement to keep India's most expressive classical dance form alive — through education, performance, and community.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="openModal()" class="bg-[#D4700A] text-white px-8 py-3 rounded-full font-medium hover:bg-[#b85f06] transition-colors flex items-center gap-2">
+                        Be a Part of This 
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                    <button class="border border-[#D4700A] text-[#D4700A] px-8 py-3 rounded-full font-medium hover:bg-[#D4700A] hover:text-white transition-colors">
+                        Our Story
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="relative h-[600px] lg:h-[800px] w-full flex justify-center items-center">
+                <div class="relative w-full max-w-md h-full rounded-2xl overflow-visible">
+                    <!-- Main Image Container -->
+                    <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-[-20px_20px_60px_rgba(212,112,10,0.15)] bg-[#EDE8DF]">
+                        <img src="https://i.ibb.co/xq5BXwmP/kathak-dancer.jpg" alt="Bharatanatyam Dancer" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1C1C1C]/20 to-transparent"></div>
+                    </div>
+
+                    <!-- Floating Chips -->
+                    <div class="absolute bg-[#FAF6EF] border border-[#D4700A] px-4 py-2 rounded-full shadow-lg animate-float hidden md:block" style="top: 10%; left: -5%; animation-delay: 0s; z-index: 20;">
+                        <span class="text-[#1C1C1C] text-sm font-medium whitespace-nowrap">Abhinaya</span>
+                    </div>
+                    <div class="absolute bg-[#FAF6EF] border border-[#D4700A] px-4 py-2 rounded-full shadow-lg animate-float hidden md:block" style="top: 20%; right: -10%; animation-delay: 0.5s; z-index: 20;">
+                        <span class="text-[#1C1C1C] text-sm font-medium whitespace-nowrap">Taal</span>
+                    </div>
+                    <div class="absolute bg-[#FAF6EF] border border-[#D4700A] px-4 py-2 rounded-full shadow-lg animate-float hidden md:block" style="bottom: 15%; left: -8%; animation-delay: 1s; z-index: 20;">
+                        <span class="text-[#1C1C1C] text-sm font-medium whitespace-nowrap">Gharana</span>
+                    </div>
+                    <div class="absolute bg-[#FAF6EF] border border-[#D4700A] px-4 py-2 rounded-full shadow-lg animate-float hidden md:block" style="top: 5%; right: 10%; animation-delay: 1.5s; z-index: 20;">
+                        <span class="text-[#1C1C1C] text-sm font-medium whitespace-nowrap">Riyaz</span>
+                    </div>
+                    <div class="absolute bg-[#FAF6EF] border border-[#D4700A] px-4 py-2 rounded-full shadow-lg animate-float hidden md:block" style="bottom: 30%; right: -5%; animation-delay: 2s; z-index: 20;">
+                        <span class="text-[#1C1C1C] text-sm font-medium whitespace-nowrap">150+ Students</span>
+                    </div>
+                    <div class="absolute bg-[#FAF6EF] border border-[#D4700A] px-4 py-2 rounded-full shadow-lg animate-float hidden md:block" style="top: 40%; left: -12%; animation-delay: 0.8s; z-index: 20;">
+                        <span class="text-[#1C1C1C] text-sm font-medium whitespace-nowrap">Mudra</span>
+                    </div>
+                    <div class="absolute bg-[#FAF6EF] border border-[#D4700A] px-4 py-2 rounded-full shadow-lg animate-float hidden md:block" style="bottom: -5%; left: 10%; animation-delay: 1.2s; z-index: 20;">
+                        <span class="text-[#1C1C1C] text-sm font-medium whitespace-nowrap">10 Years of Legacy</span>
+                    </div>
+                    <div class="absolute bg-[#FAF6EF] border border-[#D4700A] px-4 py-2 rounded-full shadow-lg animate-float hidden md:block" style="top: 60%; right: -12%; animation-delay: 0.3s; z-index: 20;">
+                        <span class="text-[#1C1C1C] text-sm font-medium whitespace-nowrap">Ghungroo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Numbers -->
+    <section id="stats" class="bg-[#6B2737] py-20 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#C9963F 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-0 divide-y md:divide-y-0 md:divide-x divide-[#C9963F]/30">
+                <div class="text-center px-4 py-6 md:py-0">
+                    <div class="font-accent text-5xl md:text-6xl lg:text-7xl text-[#C9963F] mb-2">
+                        <span class="counter" data-target="20">0</span><span class="text-3xl md:text-4xl lg:text-5xl ml-1 align-baseline">+</span>
+                    </div>
+                    <div class="text-white/70 text-sm uppercase tracking-widest font-medium">Years of Legacy</div>
+                </div>
+                <div class="text-center px-4 py-6 md:py-0">
+                    <div class="font-accent text-5xl md:text-6xl lg:text-7xl text-[#C9963F] mb-2">
+                        <span class="counter" data-target="10000">0</span><span class="text-3xl md:text-4xl lg:text-5xl ml-1 align-baseline">+</span>
+                    </div>
+                    <div class="text-white/70 text-sm uppercase tracking-widest font-medium">Artists Nurtured</div>
+                </div>
+                <div class="text-center px-4 py-6 md:py-0">
+                    <div class="font-accent text-5xl md:text-6xl lg:text-7xl text-[#C9963F] mb-2">
+                        <span class="counter" data-target="1">0</span><span class="text-3xl md:text-4xl lg:text-5xl ml-1 align-baseline">M+</span>
+                    </div>
+                    <div class="text-white/70 text-sm uppercase tracking-widest font-medium">Digital Reach</div>
+                </div>
+                <div class="text-center px-4 py-6 md:py-0">
+                    <div class="font-accent text-5xl md:text-6xl lg:text-7xl text-[#C9963F] mb-2">
+                        <span class="counter" data-target="250">0</span><span class="text-3xl md:text-4xl lg:text-5xl ml-1 align-baseline">+</span>
+                    </div>
+                    <div class="text-white/70 text-sm uppercase tracking-widest font-medium">Artists Performing</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-24 bg-[#FAF6EF]">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-6 reveal-on-scroll">
+                <span class="text-[#D4700A] font-bold text-xs tracking-widest uppercase">WHO WE ARE</span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-[#1C1C1C] leading-tight">
+                    A Living Tradition, Carried Forward with Purpose
+                </h2>
+                <p class="text-[#5C5347] text-lg leading-relaxed">
+                    Antaranga Utsav is India's largest classical and performing arts revival — a national movement to ensure that the country's most treasured art forms are not just remembered, but actively lived, performed, and passed forward.
+                </p>
+                <p class="text-[#5C5347] text-lg leading-relaxed">
+                    Built on the foundation of AIDA (Association for Indian Dance & Arts), founded in 2009 by Dr. G. Ratheesh Babu, Antaranga represents over two decades of commitment to preserving India's living cultural heritage. Through 8 national and 3 international festivals every year, we have created sustainable platforms for 10,000+ artists — from emerging talents to revered maestros.
+                </p>
+                <p class="text-[#5C5347] text-lg leading-relaxed">
+                    We believe a civilization survives only if its stories continue to be performed. Antaranga is that stage.
+                </p>
+                <div class="flex items-center justify-center w-full py-4 opacity-50">
+                     <div class="h-[1px] bg-[#C9963F] w-full max-w-[100px]"></div>
+                     <div class="mx-4 text-[#C9963F] text-xl">❖</div>
+                     <div class="h-[1px] bg-[#C9963F] w-full max-w-[100px]"></div>
+                </div>
+            </div>
+
+            <div class="relative reveal-on-scroll delay-200">
+                <blockquote class="border-l-4 border-[#D4700A] pl-8 py-2">
+                    <p class="font-display italic text-3xl md:text-4xl text-[#1C1C1C] leading-snug">
+                        "Antaranga is not funded. It is carried forward."
+                    </p>
+                    <footer class="mt-6 text-[#5C5347] font-medium text-sm uppercase tracking-wider">
+                        — Antaranga Utsav
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenge -->
+    <section id="challenge" class="py-24 bg-[#FAF6EF]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 space-y-4 reveal-on-scroll">
+                <span class="text-[#D4700A] font-bold text-xs tracking-widest uppercase">THE CHALLENGE</span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-[#1C1C1C]">
+                    A Culture at Risk
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-[#D4700A] p-8 rounded-xl reveal-on-scroll shadow-lg hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 0s;">
+                    <h3 class="text-white font-display font-bold text-2xl mb-3">Shrinking Platforms</h3>
+                    <p class="text-white font-bold text-lg leading-relaxed">Classical art forms are losing mainstream stages, pushed to the margins of cultural consciousness.</p>
+                </div>
+                <div class="bg-[#D4700A] p-8 rounded-xl reveal-on-scroll shadow-lg hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 0.1s;">
+                    <h3 class="text-white font-display font-bold text-2xl mb-3">Disconnected Youth</h3>
+                    <p class="text-white font-bold text-lg leading-relaxed">Young audiences grow distant from their heritage, unable to access living traditions.</p>
+                </div>
+                <div class="bg-[#D4700A] p-8 rounded-xl reveal-on-scroll shadow-lg hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 0.2s;">
+                    <h3 class="text-white font-display font-bold text-2xl mb-3">Masters Without Stages</h3>
+                    <p class="text-white font-bold text-lg leading-relaxed">Gurus and maestros exist, but performance opportunities continue to diminish.</p>
+                </div>
+                <div class="bg-[#D4700A] p-8 rounded-xl reveal-on-scroll shadow-lg hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 0.3s;">
+                    <h3 class="text-white font-display font-bold text-2xl mb-3">Occasional, Not Institutional</h3>
+                    <p class="text-white font-bold text-lg leading-relaxed">Cultural events remain sporadic celebrations rather than sustained movements.</p>
+                </div>
+            </div>
+
+            <div class="reveal-on-scroll delay-300">
+                <blockquote class="border-l-4 border-[#D4700A] pl-8 py-4 bg-white/50 rounded-r-lg">
+                    <p class="font-display italic text-2xl md:text-3xl text-[#1C1C1C] leading-snug">
+                        "A civilization survives only if its stories continue to be performed."
+                    </p>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legacy -->
+    <section id="legacy" class="py-24 bg-[#FAF6EF]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 space-y-4 reveal-on-scroll">
+                <span class="text-[#D4700A] font-bold text-xs tracking-widest uppercase">LEGACY</span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-[#1C1C1C]">
+                    The Foundation: AIDA
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center mb-16">
+                <!-- Left Column: Dr. G. Ratheesh Babu -->
+                <div class="flex flex-col items-center text-center lg:col-span-1 reveal-on-scroll">
+                    <div class="w-48 h-48 rounded-full p-1 border-2 border-[#C9963F] mb-6 overflow-hidden relative shadow-lg">
+                        <img src="https://i.ibb.co/8gYhRmVQ/IMG-5379.jpg" alt="Dr. G. Ratheesh Babu" class="w-full h-full rounded-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                    <h3 class="font-display font-bold text-2xl text-[#1C1C1C] mb-1">
+                        Dr. G. Ratheesh Babu
+                    </h3>
+                    <span class="text-[#D4700A] text-xs font-bold uppercase tracking-widest mb-2">
+                        Founder, AIDA
+                    </span>
+                    <p class="text-[#5C5347] text-sm font-medium">
+                        Association for Indian Dance & Arts • Est. 2009
+                    </p>
+                </div>
+
+                <!-- Right Column: Points -->
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8 reveal-on-scroll delay-200">
+                    <div class="flex gap-4">
+                        <div class="mt-1 w-2 h-2 rounded-full bg-[#D4700A] flex-shrink-0"></div>
+                        <div>
+                            <h4 class="font-display font-bold text-xl text-[#1C1C1C] mb-2">A Beacon of Excellence</h4>
+                            <p class="text-[#5C5347] leading-relaxed">
+                                For nearly two decades, AIDA has been a guiding force in the Indian dance community, consistently fostering artistic development and appreciation.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="mt-1 w-2 h-2 rounded-full bg-[#D4700A] flex-shrink-0"></div>
+                        <div>
+                            <h4 class="font-display font-bold text-xl text-[#1C1C1C] mb-2">Extensive Reach</h4>
+                            <p class="text-[#5C5347] leading-relaxed">
+                                Organizing 8 National and 3 International festivals and competitions every year, creating broad platforms for cultural exchange.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="mt-1 w-2 h-2 rounded-full bg-[#D4700A] flex-shrink-0"></div>
+                        <div>
+                            <h4 class="font-display font-bold text-xl text-[#1C1C1C] mb-2">Artist Empowerment</h4>
+                            <p class="text-[#5C5347] leading-relaxed">
+                                Provided a vital platform for over 10,000+ artists — from emerging talents to revered maestros — ensuring their growth and recognition.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="mt-1 w-2 h-2 rounded-full bg-[#D4700A] flex-shrink-0"></div>
+                        <div>
+                            <h4 class="font-display font-bold text-xl text-[#1C1C1C] mb-2">Cultural Preservation</h4>
+                            <p class="text-[#5C5347] leading-relaxed">
+                                Dedicated to preserving and celebrating India's rich classical and performing arts heritage for future generations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center w-full py-8 opacity-80 reveal-on-scroll delay-300">
+                <div class="h-[1px] bg-[#C9963F] w-16 md:w-32"></div>
+                <p class="font-display italic text-xl md:text-2xl text-[#1C1C1C] px-6 text-center leading-snug">
+                    "A civilization survives only if its stories continue to be performed."
+                </p>
+                <div class="h-[1px] bg-[#C9963F] w-16 md:w-32"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founders -->
+    <section id="founder" class="py-24 bg-[#EDE8DF]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 space-y-4 reveal-on-scroll">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-[#1C1C1C]">
+                    The Mind Behind Antaranga
+                </h2>
+                <p class="text-[#5C5347] text-lg">
+                    Rooted in tradition. Building for the future.
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center gap-12">
+                <div class="bg-[#FAF6EF] p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 w-full max-w-lg border border-transparent hover:border-[#D4700A]/30 group reveal-on-scroll delay-200">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-40 h-40 rounded-full p-1 border border-[#C9963F] mb-6 overflow-hidden relative">
+                            <img src="https://i.ibb.co/h17rtgnj/founder.jpg" alt="Ms. Nisha Mangalampalli" class="w-full h-full rounded-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <h3 class="font-display font-bold text-2xl text-[#1C1C1C] mb-1">
+                            Ms. Nisha Mangalampalli
+                        </h3>
+                        <span class="text-[#D4700A] text-xs font-bold uppercase tracking-widest mb-2">
+                            Founder & Creative Director
+                        </span>
+                        <p class="text-[#5C5347] text-sm font-medium mb-1">
+                            Abhibhava Art Academy, Mumbai
+                        </p>
+                        <p class="text-[#5C5347]/80 text-xs uppercase tracking-wider mb-6">
+                            Bharatanatyam Dancer • Performer • Choreographer
+                        </p>
+                        <p class="text-[#5C5347] text-sm leading-relaxed mb-4">
+                            A senior disciple trained under Dr. Shri G. Ratheesh Babu — a direct lineage to classical masters — Ms. Nisha is a dedicated practitioner of the Kalakshetra style of Bharatanatyam, known for its purity and aesthetics. Recipient of the Senior Scholarship from the Central Government of India, she has performed at renowned festivals and cultural platforms across India.
+                        </p>
+                        <p class="text-[#5C5347] text-sm italic font-display">
+                            "Her journey brilliantly blends rigorous tradition with a contemporary vision, forming the creative backbone of Antaranga Utsav."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="max-w-2xl text-center space-y-3 reveal-on-scroll delay-300">
+                    <span class="text-[#D4700A] text-xs font-bold uppercase tracking-widest">
+                        ABOUT ABHIBHAVA ART ACADEMY
+                    </span>
+                    <p class="text-[#5C5347] text-base leading-relaxed">
+                        A Mumbai-based dance academy founded by Ms. Nisha, dedicated to training and mentoring young dancers in Bharatanatyam, Kathak, Hip-Hop, Ballet, and more. With a strong focus on discipline, technique, and expression — nurturing the next generation of India's performers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact -->
+    <section id="impact" class="py-24 bg-[#FAF6EF] text-[#1C1C1C]">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <!-- Left Column: Image -->
+            <div class="relative h-[600px] rounded-xl overflow-hidden reveal-on-scroll group">
+                <img src="https://i.ibb.co/Q7hJ9mp6/concert.jpg" alt="Classical Performance" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#FAF6EF] via-transparent to-transparent opacity-60"></div>
+            </div>
+
+            <!-- Right Column: Content -->
+            <div class="space-y-12 reveal-on-scroll delay-200">
+                <div class="space-y-4">
+                    <span class="text-[#D4700A] font-bold text-xs tracking-widest uppercase">IMPACT</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-bold text-[#1C1C1C] leading-tight">
+                        Beyond the Stage
+                    </h2>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="pl-6 border-l-4 border-[#D4700A]">
+                        <h3 class="text-[#C9963F] font-display font-bold text-xl mb-2">For Artists</h3>
+                        <p class="text-[#5C5347] text-lg leading-relaxed">
+                            Recognition, sustainable livelihood opportunities, and continuity of practice through dedicated platforms and institutional support.
+                        </p>
+                    </div>
+                    <div class="pl-6 border-l-4 border-[#D4700A]">
+                        <h3 class="text-[#C9963F] font-display font-bold text-xl mb-2">For Youth</h3>
+                        <p class="text-[#5C5347] text-lg leading-relaxed">
+                            Direct exposure to living traditions, inspiration to explore their heritage, and connection to cultural identity.
+                        </p>
+                    </div>
+                    <div class="pl-6 border-l-4 border-[#D4700A]">
+                        <h3 class="text-[#C9963F] font-display font-bold text-xl mb-2">For India</h3>
+                        <p class="text-[#5C5347] text-lg leading-relaxed">
+                            Preservation of intangible cultural heritage and strengthening of the nation's artistic ecosystem for future generations.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-[#EDE8DF] border border-[#C9963F]/20 p-8 rounded-lg mt-8 relative">
+                     <div class="absolute -top-3 left-8 bg-[#FAF6EF] px-2 text-[#C9963F] text-2xl">❝</div>
+                     <p class="font-display italic text-xl text-[#1C1C1C] text-center leading-relaxed">
+                       "This is cultural infrastructure, not entertainment."
+                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="join" class="py-32 bg-[#D4700A] relative overflow-hidden flex items-center justify-center text-center">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5 select-none">
+            <span class="font-display italic text-[20vw] text-white leading-none">Antaranga</span>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-8 reveal-on-scroll section-hidden">
+            <h2 class="text-5xl md:text-7xl font-display font-bold text-white leading-tight">
+                Be a Part of Something Timeless
+            </h2>
+            <p class="text-white/90 text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed font-light">
+                Sponsoring Antaranga is not just a business decision — it is a contribution to the living culture of India. Join us in carrying this forward.
+            </p>
+            
+            <div class="pt-4">
+                <button onclick="openModal()" class="inline-block bg-white text-[#D4700A] px-10 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-transform hover:scale-105 shadow-xl">
+                    Fill the Form to Join →
+                </button>
+                <p class="mt-4 text-white/80 text-sm">We'll reach out within 48 hours</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#1C1C1C] text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8 mb-12">
+                <!-- Brand -->
+                <div class="text-center md:text-left">
+                    <h3 class="text-3xl font-display font-bold mb-2">Antaranga</h3>
+                    <p class="text-white/60 text-sm">Keeping the rhythm of India alive.</p>
+                </div>
+
+                <!-- Links -->
+                <div class="flex gap-8 text-sm text-white/70">
+                    <a href="#about" class="hover:text-[#D4700A] transition-colors">About</a>
+                    <a href="#founder" class="hover:text-[#D4700A] transition-colors">Founders</a>
+                    <button onclick="openModal()" class="hover:text-[#D4700A] transition-colors">Join</button>
+                </div>
+
+                <!-- Socials -->
+                <div class="flex gap-6">
+                    <a href="https://www.instagram.com/abhibhavaartacademy?igsh=MWozZjlxa2swb3dnaw==" target="_blank" rel="noopener noreferrer" class="text-white/70 hover:text-[#D4700A] transition-colors">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://youtube.com/@abhibhavadancestudio6055?si=Wd8Z9pRNOH58tlD1" target="_blank" rel="noopener noreferrer" class="text-white/70 hover:text-[#D4700A] transition-colors">
+                        <i data-lucide="youtube" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 text-center">
+                <p class="text-white/40 text-xs">© 2025 Antaranga. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sponsorship Modal -->
+    <div id="sponsorship-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+        <div class="relative w-full max-w-[680px] bg-[#FAF6EF] rounded-2xl shadow-2xl my-8 flex flex-col max-h-[90vh]">
+            <!-- Header -->
+            <div class="flex justify-between items-center p-6 border-b border-[#D4700A]/10 sticky top-0 bg-[#FAF6EF] z-10 rounded-t-2xl">
+                <h2 class="font-display font-bold text-2xl text-[#1C1C1C]">Partner with Antaranga</h2>
+                <button onclick="closeModal()" class="p-2 hover:bg-[#EDE8DF] rounded-full transition-colors text-[#5C5347] hover:text-[#D4700A]">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 md:p-8 overflow-y-auto custom-scrollbar">
+                <!-- Success Message (Hidden by default) -->
+                <div id="form-success" class="hidden text-center py-12 space-y-6">
+                    <div class="w-20 h-20 bg-[#D4700A]/10 rounded-full flex items-center justify-center mx-auto text-[#D4700A] text-4xl">✓</div>
+                    <h3 class="font-display font-bold text-3xl text-[#1C1C1C]">Thank You!</h3>
+                    <p class="text-[#5C5347] text-lg max-w-md mx-auto leading-relaxed">
+                        We have received your interest in Antaranga Utsav. Our team will reach out to you within 48 hours.
+                    </p>
+                    <button onclick="closeModal()" class="mt-8 text-[#D4700A] font-medium hover:text-[#b85f06] transition-colors">
+                        ← Back to Website
+                    </button>
+                </div>
+
+                <!-- Form -->
+                <div id="form-container">
+                    <p class="text-[#5C5347] mb-8 leading-relaxed border-l-4 border-[#D4700A] pl-4 italic">
+                        "Antaranga Utsav is a platform dedicated to reviving Indian art and culture by providing opportunities to artists across the country. We invite organizations and individuals to partner with us in this cultural journey."
+                    </p>
+
+                    <form id="sponsorship-form" class="space-y-10">
+                        <!-- Section 1: Basic Information -->
+                        <div class="space-y-6">
+                            <h3 class="font-display font-bold text-xl text-[#D4700A] border-b border-[#D4700A]/20 pb-2">Basic Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Full Name <span class="text-[#D4700A]">*</span></label>
+                                    <input type="text" name="fullName" required class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Company / Organization</label>
+                                    <input type="text" name="companyName" class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Designation</label>
+                                    <input type="text" name="designation" class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Email Address <span class="text-[#D4700A]">*</span></label>
+                                    <input type="email" name="email" required class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Phone Number <span class="text-[#D4700A]">*</span></label>
+                                    <input type="tel" name="phone" required class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">City & State</label>
+                                    <input type="text" name="cityState" class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Website (Optional)</label>
+                                    <input type="url" name="website" class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Social Media Handles</label>
+                                    <input type="text" name="socialMedia" placeholder="@instagram / @twitter / LinkedIn URL" class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Type of Sponsorship Interest -->
+                        <div class="space-y-6">
+                            <h3 class="font-display font-bold text-xl text-[#D4700A] border-b border-[#D4700A]/20 pb-2">Type of Sponsorship Interest</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="sponsorshipType" value="Title Sponsor" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Title Sponsor</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="sponsorshipType" value="Co-Sponsor" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Co-Sponsor</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="sponsorshipType" value="Event Partner" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Event Partner</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="sponsorshipType" value="Cultural Supporter" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Cultural Supporter</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="sponsorshipType" value="In-kind Sponsor" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">In-kind Sponsor</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="sponsorshipType" value="Other" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer" onchange="toggleOtherInput(this)">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Other</span>
+                                </label>
+                            </div>
+                            <input type="text" id="otherSponsorshipType" name="otherSponsorshipType" placeholder="Please specify..." class="hidden w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all mt-2">
+                        </div>
+
+                        <!-- Section 3: Sponsorship Contribution Details -->
+                        <div class="space-y-6">
+                            <h3 class="font-display font-bold text-xl text-[#D4700A] border-b border-[#D4700A]/20 pb-2">Sponsorship Contribution Details</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Sponsorship Amount (₹)</label>
+                                    <input type="number" name="sponsorshipAmount" class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Preferred Mode of Payment</label>
+                                    <select name="paymentMode" class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all appearance-none">
+                                        <option value="">Select an option</option>
+                                        <option value="Bank Transfer">Bank Transfer</option>
+                                        <option value="UPI">UPI</option>
+                                        <option value="Cheque">Cheque</option>
+                                        <option value="To be Discussed">To be Discussed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <label class="block text-sm font-medium text-[#1C1C1C]">Would you like to sponsor:</label>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <label class="flex items-center space-x-3 cursor-pointer group">
+                                        <input type="checkbox" name="sponsorPreferences" value="Entire Event" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                        <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Entire Event</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer group">
+                                        <input type="checkbox" name="sponsorPreferences" value="Specific Segment" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                        <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Specific Segment</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer group">
+                                        <input type="checkbox" name="sponsorPreferences" value="Prize / Award" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                        <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Prize / Award</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer group">
+                                        <input type="checkbox" name="sponsorPreferences" value="Stage / Branding" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                        <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Stage / Branding</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: Brand Promotion Preferences -->
+                        <div class="space-y-6">
+                            <h3 class="font-display font-bold text-xl text-[#D4700A] border-b border-[#D4700A]/20 pb-2">Brand Promotion Preferences</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="brandPromotion" value="Logo on Posters" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Logo on Posters</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="brandPromotion" value="Social Media Mentions" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Social Media Mentions</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="brandPromotion" value="Stage Announcement" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Stage Announcement</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="brandPromotion" value="Stall Space" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Stall Space</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="brandPromotion" value="Logo on Backdrop" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Logo on Backdrop</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="brandPromotion" value="Certificate Branding" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Certificate Branding</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer group">
+                                    <input type="checkbox" name="brandPromotion" value="Website Feature" class="w-5 h-5 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                    <span class="text-[#1C1C1C] group-hover:text-[#D4700A] transition-colors">Website Feature</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Section 5: Why associate? -->
+                        <div class="space-y-6">
+                            <h3 class="font-display font-bold text-xl text-[#D4700A] border-b border-[#D4700A]/20 pb-2">Why do you want to associate with this cultural initiative? <span class="text-sm font-normal text-[#5C5347] ml-2">(Optional)</span></h3>
+                            <textarea name="associationReason" rows="4" placeholder="Share your thoughts on why this partnership matters to you or your brand..." class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all resize-none"></textarea>
+                        </div>
+
+                        <!-- Section 6: Agreement -->
+                        <div class="space-y-6">
+                            <h3 class="font-display font-bold text-xl text-[#D4700A] border-b border-[#D4700A]/20 pb-2">Agreement</h3>
+                            <label class="flex items-start space-x-3 cursor-pointer group">
+                                <input type="checkbox" name="agreement" required class="w-5 h-5 mt-1 rounded border-[#D4700A] text-[#D4700A] focus:ring-[#D4700A] cursor-pointer">
+                                <span class="text-[#1C1C1C] leading-snug">I agree to support the event as per discussed sponsorship terms <span class="text-[#D4700A]">*</span></span>
+                            </label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Digital Signature <span class="text-[#D4700A]">*</span></label>
+                                    <input type="text" name="digitalSignature" required placeholder="Type your full name as digital signature" class="w-full px-4 py-3 rounded-lg bg-white border border-[#EDE8DF] focus:border-[#D4700A] focus:ring-1 focus:ring-[#D4700A] outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-[#1C1C1C]">Date</label>
+                                    <input type="text" id="form-date" readonly class="w-full px-4 py-3 rounded-lg bg-[#FAF6EF] border border-[#EDE8DF] text-[#5C5347] cursor-not-allowed">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submit-btn" class="w-full bg-[#D4700A] text-white py-4 rounded-full font-bold text-lg hover:bg-[#b85f06] transition-all transform hover:scale-[1.01] shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center">
+                            Submit Sponsorship Interest →
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Set Date
+        document.getElementById('form-date').value = new Date().toLocaleDateString('en-IN');
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        }
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-[#FAF6EF]', 'shadow-md', 'py-3');
+                navbar.classList.remove('bg-transparent', 'py-5');
+            } else {
+                navbar.classList.remove('bg-[#FAF6EF]', 'shadow-md', 'py-3');
+                navbar.classList.add('bg-transparent', 'py-5');
+            }
+        });
+
+        // Scroll Animations (Reveal on Scroll)
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('section-visible');
+                    entry.target.classList.remove('section-hidden');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+            el.classList.add('section-hidden');
+            observer.observe(el);
+        });
+
+        // Counter Animation
+        const statsSection = document.getElementById('stats');
+        let counted = false;
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !counted) {
+                counted = true;
+                document.querySelectorAll('.counter').forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const duration = 1500;
+                    const increment = target / (duration / 16);
+                    let current = 0;
+
+                    const updateCounter = () => {
+                        current += increment;
+                        if (current < target) {
+                            counter.innerText = Math.ceil(current).toLocaleString();
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.innerText = target.toLocaleString();
+                        }
+                    };
+                    updateCounter();
+                });
+            }
+        }, { threshold: 0.3 });
+
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('sponsorship-modal');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            // Reset form state
+            document.getElementById('form-success').classList.add('hidden');
+            document.getElementById('form-container').classList.remove('hidden');
+            document.getElementById('sponsorship-form').reset();
+            document.getElementById('form-date').value = new Date().toLocaleDateString('en-IN');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'unset';
+        }
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Toggle Other Input
+        function toggleOtherInput(checkbox) {
+            const input = document.getElementById('otherSponsorshipType');
+            if (checkbox.checked) {
+                input.classList.remove('hidden');
+            } else {
+                input.classList.add('hidden');
+            }
+        }
+
+        // Form Submission
+        const form = document.getElementById('sponsorship-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Show loading state
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Submitting...';
+
+            // Collect Data
+            const formData = new FormData(form);
+            const data = {
+                fullName: formData.get('fullName'),
+                company: formData.get('companyName'),
+                designation: formData.get('designation'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                cityState: formData.get('cityState'),
+                website: formData.get('website'),
+                socialMedia: formData.get('socialMedia'),
+                sponsorshipType: [],
+                otherType: formData.get('otherSponsorshipType'),
+                amount: formData.get('sponsorshipAmount'),
+                paymentMode: formData.get('paymentMode'),
+                sponsorWhat: [],
+                promotionPrefs: [],
+                whySponsor: formData.get('associationReason'),
+                agreement: formData.get('agreement') === 'on',
+                signature: formData.get('digitalSignature'),
+                date: formData.get('date') || new Date().toLocaleDateString('en-IN')
+            };
+
+            // Handle Checkboxes
+            document.querySelectorAll('input[name="sponsorshipType"]:checked').forEach(cb => {
+                data.sponsorshipType.push(cb.value);
+            });
+            document.querySelectorAll('input[name="sponsorPreferences"]:checked').forEach(cb => {
+                data.sponsorWhat.push(cb.value);
+            });
+            document.querySelectorAll('input[name="brandPromotion"]:checked').forEach(cb => {
+                data.promotionPrefs.push(cb.value);
+            });
+
+            try {
+                const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxF9Y3gmgq3KRhhcsSg-3e25WLGRHzd57k-56s375XVNHcxKMaIQ3GZbJXypzZmmybkAw/exec';
+                
+                await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Success
+                document.getElementById('form-container').classList.add('hidden');
+                document.getElementById('form-success').classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = originalBtnText;
+            }
+        });
+    </script>
+</body>
+</html>
